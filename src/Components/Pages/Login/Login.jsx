@@ -1,8 +1,10 @@
-// Frontend/src/Pages/Login/Login.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import logo from "../../../assets/Logo.png";
+
+// Obtener la URL base del backend desde la variable de entorno
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
   const { login } = useAuth();
@@ -38,6 +40,7 @@ const Login = () => {
     }
 
     try {
+      // Usamos el login definido en AuthContext, que deberá usar internamente apiUrl si se desea
       const success = await login(email, password, role, rememberMe, adminPassword);
       if (success) {
         setAlertMessage("Inicio de sesión exitoso. Bienvenido a Tic America.");

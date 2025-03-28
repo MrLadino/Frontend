@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../../assets/Logo.png";
 
+// Obtener la URL base del backend desde la variable de entorno
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const SignUp = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -14,7 +17,6 @@ const SignUp = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -41,7 +43,8 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/signup", {
+      // Usamos la URL dinámica en lugar de "http://localhost:5000"
+      const response = await axios.post(`${apiUrl}/api/signup`, {
         email,
         password,
         name: email.split("@")[0],
@@ -59,9 +62,7 @@ const SignUp = () => {
   };
 
   return (
-    // Contenedor principal (pantalla completa), sin scroll, centrado
     <div className="w-full h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-black to-red-600">
-      {/* Tarjeta con escala al 80%, sombra brillante y hover suave */}
       <div
         className="bg-white w-full max-w-md mx-4 p-6 rounded-xl 
                    transform scale-[0.8] origin-center transition-all duration-500 
@@ -75,13 +76,11 @@ const SignUp = () => {
         <p className="text-center text-gray-600 mb-6">Ingresa tus datos para registrarte.</p>
 
         {alert.message && (
-          <div
-            className={`text-center mb-4 px-4 py-2 rounded ${
-              alert.type === "error"
-                ? "bg-red-200 text-red-800"
-                : "bg-green-200 text-green-800"
-            }`}
-          >
+          <div className={`text-center mb-4 px-4 py-2 rounded ${
+            alert.type === "error"
+              ? "bg-red-200 text-red-800"
+              : "bg-green-200 text-green-800"
+          }`}>
             {alert.message}
           </div>
         )}
@@ -153,7 +152,7 @@ const SignUp = () => {
             </select>
           </div>
 
-          {/* Contraseña de Admin */}
+          {/* Contraseña de Admin (solo para rol admin) */}
           {formData.role === "admin" && (
             <div className="mb-4">
               <label className="block text-sm font-semibold text-gray-700">Contraseña de Admin</label>

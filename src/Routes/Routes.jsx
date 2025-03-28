@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 
+// Páginas principales
 import Home from "../Components/Pages/Home/Home";
 import Login from "../Components/Pages/Login/Login";
 import SignUp from "../Components/Pages/SignUp/SignUp";
@@ -12,18 +13,18 @@ import Profile from "../Components/Pages/Profile/Profile";
 import Ayuda from "../Components/Pages/Ayuda/Ayuda";
 import Programa from "../Components/Pages/Programa/Programa";
 
-// Loader
-import FancyLoader from "../Components/Commons/FancyLoader";
-
-// Forgot/Reset
+// Páginas para recuperación de contraseña
 import ForgotPassword from "../Components/Pages/Login/ForgotPassword";
 import ResetPassword from "../Components/Pages/Login/ResetPassword";
+
+// Loader
+import FancyLoader from "../Components/Commons/FancyLoader";
 
 const AppRoutes = () => {
   const { authenticated, loadingAuth, user } = useAuth();
   const isAdmin = user?.role === "admin";
 
-  // Mientras se cargan los datos de autenticación se muestra el loader
+  // Mientras se cargan los datos de autenticación se muestra un loader
   if (loadingAuth) {
     return <FancyLoader />;
   }
@@ -41,7 +42,7 @@ const AppRoutes = () => {
       <Route path="/profile" element={authenticated ? <Profile /> : <Navigate to="/login" />} />
       <Route path="/ayuda" element={authenticated ? <Ayuda /> : <Navigate to="/login" />} />
       <Route path="/programa" element={authenticated ? <Programa /> : <Navigate to="/login" />} />
-      {/* Ruta de publicidad: solo admin; si no, redirige a /programa */}
+      {/* Ruta de publicidad: solo admin; de lo contrario, redirige a /programa */}
       <Route
         path="/lector-estatico"
         element={
@@ -50,6 +51,7 @@ const AppRoutes = () => {
             : <Navigate to="/login" />
         }
       />
+      {/* Ruta para cualquier otra URL */}
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
