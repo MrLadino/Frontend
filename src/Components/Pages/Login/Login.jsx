@@ -3,11 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import logo from "../../../assets/Logo.png";
 
-// Obtener la URL base del backend desde la variable de entorno
-const apiUrl = import.meta.env.VITE_API_URL;
-
 const Login = () => {
-  const { login } = useAuth(); // Se espera que login utilice internamente: `${apiUrl}/api/auth/login`
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -40,7 +37,6 @@ const Login = () => {
     }
 
     try {
-      // Se asume que la función login en AuthContext usa el endpoint: `${apiUrl}/api/auth/login`
       const success = await login(email, password, role, rememberMe, adminPassword);
       if (success) {
         setAlertMessage("Inicio de sesión exitoso. Bienvenido a Tic America.");
@@ -57,11 +53,16 @@ const Login = () => {
 
   return (
     <div className="w-full h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-black to-red-600">
-      <div className="bg-white w-full max-w-md mx-4 p-6 rounded-xl transform scale-[0.8] origin-center transition-all duration-500 hover:scale-[0.83] shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]">
+      <div
+        className="bg-white w-full max-w-md p-6 rounded-xl
+                   transform scale-[0.8] origin-center transition-all duration-500
+                   hover:scale-[0.83] shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]"
+      >
         <div className="text-center mb-6">
           <img src={logo} alt="Logo de Tic America" className="w-24 h-24 mx-auto" />
         </div>
-        <h2 className="text-2xl font-bold text-center mb-2 text-gray-800">
+
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
           Bienvenido a Tic America
         </h2>
         <p className="text-center text-gray-600 mb-6">
@@ -82,7 +83,8 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-md 
+                         focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               placeholder="tucorreo@ejemplo.com"
               required
             />
@@ -95,7 +97,8 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-md 
+                         focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               placeholder="Ingresa tu contraseña"
               required
             />
@@ -107,7 +110,8 @@ const Login = () => {
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-md 
+                         focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               required
             >
               <option value="">Selecciona un rol</option>
@@ -124,7 +128,8 @@ const Login = () => {
                 type="password"
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
-                className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+                className="mt-1 w-full p-3 border border-gray-300 rounded-md 
+                           focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
                 placeholder="Ingresa la contraseña de admin"
                 required
               />
@@ -150,7 +155,9 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"}`}
+            className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${
+              isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+            }`}
           >
             {isLoading ? "Cargando..." : "Iniciar sesión"}
           </button>

@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../../assets/Logo.png";
 
-// Obtener la URL base del backend desde la variable de entorno
-const apiUrl = import.meta.env.VITE_API_URL;
-
 const SignUp = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -17,6 +14,7 @@ const SignUp = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -43,8 +41,7 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Usar la URL dinámica y el endpoint centralizado para autenticación
-      const response = await axios.post(`${apiUrl}/api/auth/signup`, {
+      const response = await axios.post("https://backend-production-f8aa.up.railway.app/api/auth/signup", {
         email,
         password,
         name: email.split("@")[0],
@@ -62,8 +59,15 @@ const SignUp = () => {
   };
 
   return (
+    // Contenedor principal (pantalla completa), sin scroll, centrado
     <div className="w-full h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-black to-red-600">
-      <div className="bg-white w-full max-w-md mx-4 p-6 rounded-xl transform scale-[0.8] origin-center transition-all duration-500 hover:scale-[0.83] shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]">
+      {/* Tarjeta con escala al 80%, sombra brillante y hover suave */}
+      <div
+        className="bg-white w-full max-w-md mx-4 p-6 rounded-xl 
+                   transform scale-[0.8] origin-center transition-all duration-500 
+                   hover:scale-[0.83] 
+                   shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]"
+      >
         <div className="text-center mb-6">
           <img src={logo} alt="Logo Tic America" className="w-24 h-24 mx-auto" />
         </div>
@@ -71,7 +75,13 @@ const SignUp = () => {
         <p className="text-center text-gray-600 mb-6">Ingresa tus datos para registrarte.</p>
 
         {alert.message && (
-          <div className={`text-center mb-4 px-4 py-2 rounded ${alert.type === "error" ? "bg-red-200 text-red-800" : "bg-green-200 text-green-800"}`}>
+          <div
+            className={`text-center mb-4 px-4 py-2 rounded ${
+              alert.type === "error"
+                ? "bg-red-200 text-red-800"
+                : "bg-green-200 text-green-800"
+            }`}
+          >
             {alert.message}
           </div>
         )}
@@ -85,7 +95,9 @@ const SignUp = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md 
+                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
+                         transition duration-300"
               placeholder="tucorreo@ejemplo.com"
               required
             />
@@ -99,7 +111,9 @@ const SignUp = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md 
+                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
+                         transition duration-300"
               placeholder="Ingresa tu contraseña"
               required
             />
@@ -113,7 +127,9 @@ const SignUp = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md 
+                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
+                         transition duration-300"
               placeholder="Repite tu contraseña"
               required
             />
@@ -126,7 +142,9 @@ const SignUp = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md 
+                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
+                         transition duration-300"
               required
             >
               <option value="">Selecciona un rol</option>
@@ -135,7 +153,7 @@ const SignUp = () => {
             </select>
           </div>
 
-          {/* Contraseña de Admin (solo para rol admin) */}
+          {/* Contraseña de Admin */}
           {formData.role === "admin" && (
             <div className="mb-4">
               <label className="block text-sm font-semibold text-gray-700">Contraseña de Admin</label>
@@ -144,7 +162,9 @@ const SignUp = () => {
                 name="adminPassword"
                 value={formData.adminPassword}
                 onChange={handleChange}
-                className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+                className="mt-1 w-full p-3 border rounded-md 
+                           focus:ring-2 focus:ring-red-500 focus:border-red-500 
+                           transition duration-300"
                 placeholder="Ingresa la contraseña de admin"
                 required
               />
@@ -155,7 +175,9 @@ const SignUp = () => {
             type="submit"
             disabled={isLoading}
             className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${
-              isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+              isLoading
+                ? "bg-red-300 cursor-not-allowed"
+                : "bg-red-600 hover:bg-red-700"
             }`}
           >
             {isLoading ? "Registrando..." : "Crear Cuenta"}
@@ -164,7 +186,7 @@ const SignUp = () => {
 
         <div className="text-center mt-6">
           <p className="text-sm text-gray-700">
-            ¿Ya tienes una cuenta?{" "}
+            ¿Ya tienes cuenta?{" "}
             <span
               onClick={() => navigate("/login")}
               className="text-red-600 hover:underline cursor-pointer"
