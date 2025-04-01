@@ -43,8 +43,8 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Usamos la URL dinámica en lugar de "http://localhost:5000"
-      const response = await axios.post(`${apiUrl}/api/signup`, {
+      // Se utiliza la URL dinámica y se corrige el endpoint para autenticación
+      const response = await axios.post(`${apiUrl}/api/auth/signup`, {
         email,
         password,
         name: email.split("@")[0],
@@ -63,12 +63,7 @@ const SignUp = () => {
 
   return (
     <div className="w-full h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-black to-red-600">
-      <div
-        className="bg-white w-full max-w-md mx-4 p-6 rounded-xl 
-                   transform scale-[0.8] origin-center transition-all duration-500 
-                   hover:scale-[0.83] 
-                   shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]"
-      >
+      <div className="bg-white w-full max-w-md mx-4 p-6 rounded-xl transform scale-[0.8] origin-center transition-all duration-500 hover:scale-[0.83] shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]">
         <div className="text-center mb-6">
           <img src={logo} alt="Logo Tic America" className="w-24 h-24 mx-auto" />
         </div>
@@ -76,11 +71,7 @@ const SignUp = () => {
         <p className="text-center text-gray-600 mb-6">Ingresa tus datos para registrarte.</p>
 
         {alert.message && (
-          <div className={`text-center mb-4 px-4 py-2 rounded ${
-            alert.type === "error"
-              ? "bg-red-200 text-red-800"
-              : "bg-green-200 text-green-800"
-          }`}>
+          <div className={`text-center mb-4 px-4 py-2 rounded ${alert.type === "error" ? "bg-red-200 text-red-800" : "bg-green-200 text-green-800"}`}>
             {alert.message}
           </div>
         )}
@@ -94,9 +85,7 @@ const SignUp = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md 
-                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
-                         transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               placeholder="tucorreo@ejemplo.com"
               required
             />
@@ -110,9 +99,7 @@ const SignUp = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md 
-                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
-                         transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               placeholder="Ingresa tu contraseña"
               required
             />
@@ -126,9 +113,7 @@ const SignUp = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md 
-                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
-                         transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               placeholder="Repite tu contraseña"
               required
             />
@@ -141,9 +126,7 @@ const SignUp = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="mt-1 w-full p-3 border rounded-md 
-                         focus:ring-2 focus:ring-red-500 focus:border-red-500 
-                         transition duration-300"
+              className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               required
             >
               <option value="">Selecciona un rol</option>
@@ -161,9 +144,7 @@ const SignUp = () => {
                 name="adminPassword"
                 value={formData.adminPassword}
                 onChange={handleChange}
-                className="mt-1 w-full p-3 border rounded-md 
-                           focus:ring-2 focus:ring-red-500 focus:border-red-500 
-                           transition duration-300"
+                className="mt-1 w-full p-3 border rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
                 placeholder="Ingresa la contraseña de admin"
                 required
               />
@@ -174,9 +155,7 @@ const SignUp = () => {
             type="submit"
             disabled={isLoading}
             className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${
-              isLoading
-                ? "bg-red-300 cursor-not-allowed"
-                : "bg-red-600 hover:bg-red-700"
+              isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
             }`}
           >
             {isLoading ? "Registrando..." : "Crear Cuenta"}
