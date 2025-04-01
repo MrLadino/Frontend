@@ -43,7 +43,7 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Se utiliza la URL dinámica y se corrige el endpoint para autenticación
+      // Usar la URL dinámica y el endpoint centralizado para autenticación
       const response = await axios.post(`${apiUrl}/api/auth/signup`, {
         email,
         password,
@@ -164,7 +164,7 @@ const SignUp = () => {
 
         <div className="text-center mt-6">
           <p className="text-sm text-gray-700">
-            ¿Ya tienes cuenta?{" "}
+            ¿Ya tienes una cuenta?{" "}
             <span
               onClick={() => navigate("/login")}
               className="text-red-600 hover:underline cursor-pointer"

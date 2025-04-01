@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 
+// Obtener la URL base del backend desde la variable de entorno
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
@@ -31,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
       }
     }
+    // Asegurar que se muestre el loader por al menos 3 segundos
     const elapsed = Date.now() - startTime;
     const delay = Math.max(3000 - elapsed, 0);
     setTimeout(() => {
@@ -40,7 +44,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, role, rememberMe, adminPassword) => {
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      // Se utiliza el endpoint de login centralizado en /api/auth/login
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role, adminPassword, rememberMe }),
