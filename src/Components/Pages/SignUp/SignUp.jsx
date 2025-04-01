@@ -14,7 +14,6 @@ const SignUp = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -41,7 +40,7 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("https://backend-production-f8aa.up.railway.app/api/auth/signup", {
+      const response = await axios.post("https://backend-production-18aa.up.railway.app/api/auth/signup", {
         email,
         password,
         name: email.split("@")[0],
@@ -59,9 +58,7 @@ const SignUp = () => {
   };
 
   return (
-    // Contenedor principal (pantalla completa), sin scroll, centrado
     <div className="w-full h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-black to-red-600">
-      {/* Tarjeta con escala al 80%, sombra brillante y hover suave */}
       <div
         className="bg-white w-full max-w-md mx-4 p-6 rounded-xl 
                    transform scale-[0.8] origin-center transition-all duration-500 

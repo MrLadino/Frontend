@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-const apiUrl = "https://backend-production-18aa.up.railway.app/";
+const apiUrl = "https://backend-production-18aa.up.railway.app";
 
 const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
