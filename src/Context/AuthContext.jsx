@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-const apiUrl = "https://backend-production-18aa.up.railway.app";
+// Usamos la variable de entorno para la URL base del backend
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
@@ -17,29 +18,23 @@ export const AuthProvider = ({ children }) => {
     const initializeAuth = async () => {
       const token = localStorage.getItem("token");
       const startTime = Date.now();
-      
       if (token) {
         try {
           const decoded = jwt_decode(token);
           if (decoded.exp * 1000 < Date.now()) {
-            await handleLogout();
+            logout();
           } else {
-            setUser({
-              user_id: decoded.user_id,
-              email: decoded.email,
-              role: decoded.role,
-            });
+            setUser({ user_id: decoded.user_id, email: decoded.email, role: decoded.role });
             setAuthenticated(true);
           }
         } catch (error) {
-          console.error("Error decoding token:", error);
-          await handleLogout();
+          console.error("Error decodificando token:", error);
+          logout();
         }
       }
-      
       const elapsed = Date.now() - startTime;
-      const remainingDelay = Math.max(1000 - elapsed, 0);
-      setTimeout(() => setLoadingAuth(false), remainingDelay);
+      const delay = Math.max(1000 - elapsed, 0);
+      setTimeout(() => setLoadingAuth(false), delay);
     };
 
     initializeAuth();
@@ -49,42 +44,28 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role, adminPassword, rememberMe }),
-        credentials: "include",
       });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Authentication failed");
-      }
-      
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Error al iniciar sesión");
+      }
       localStorage.setItem("token", data.token);
-      
       const decoded = jwt_decode(data.token);
-      setUser({
-        user_id: decoded.user_id,
-        email: decoded.email,
-        role: decoded.role,
-      });
+      setUser({ user_id: decoded.user_id, email: decoded.email, role: decoded.role });
       setAuthenticated(true);
-      
       return true;
     } catch (error) {
-      console.error("Login error:", error);
-      throw new Error(error.message || "Could not connect to server");
+      console.error("Error en login:", error);
+      throw new Error(error.message || "Error desconocido al iniciar sesión");
     }
   };
 
-  const handleLogout = async () => {
+  const logout = async () => {
     try {
-      await fetch(`${apiUrl}/api/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
+      // Si tienes un endpoint para logout, puedes llamarlo aquí
+      await fetch(`${apiUrl}/api/auth/logout`, { method: "POST", credentials: "include" });
     } catch (err) {
       console.error("Logout error:", err);
     } finally {
@@ -100,12 +81,9 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem("token");
       const response = await fetch(`${apiUrl}/api/auth/verify`, {
         method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
+        headers: { "Authorization": `Bearer ${token}` },
         credentials: "include",
       });
-      
       return response.ok;
     } catch (error) {
       console.error("Session verification error:", error);
@@ -114,15 +92,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      authenticated, 
-      user, 
-      login, 
-      logout: handleLogout, 
-      loadingAuth,
-      verifySession,
-    }}>
+    <AuthContext.Provider value={{ authenticated, user, login, logout, loadingAuth, verifySession }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;

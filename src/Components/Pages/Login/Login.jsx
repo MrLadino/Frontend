@@ -3,6 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import logo from "../../../assets/Logo.png";
 
+// Obtener la URL base del backend desde la variable de entorno
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -37,6 +40,7 @@ const Login = () => {
     }
 
     try {
+      // Se asume que la función login en AuthContext usa internamente el endpoint: `${apiUrl}/api/auth/login`
       const success = await login(email, password, role, rememberMe, adminPassword);
       if (success) {
         setAlertMessage("Inicio de sesión exitoso. Bienvenido a Tic America.");
@@ -53,28 +57,21 @@ const Login = () => {
 
   return (
     <div className="w-full h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-black to-red-600">
-      <div
-        className="bg-white w-full max-w-md p-6 rounded-xl
-                   transform scale-[0.8] origin-center transition-all duration-500
-                   hover:scale-[0.83] shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]"
-      >
+      <div className="bg-white w-full max-w-md p-6 rounded-xl transform scale-[0.8] origin-center transition-all duration-500 hover:scale-[0.83] shadow-[0_0_15px_5px_rgba(255,255,255,0.4)]">
         <div className="text-center mb-6">
           <img src={logo} alt="Logo de Tic America" className="w-24 h-24 mx-auto" />
         </div>
-
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
           Bienvenido a Tic America
         </h2>
         <p className="text-center text-gray-600 mb-6">
           Ingresa tus credenciales para continuar.
         </p>
-
         {alertMessage && (
           <div className={`text-center mb-4 px-4 py-2 rounded ${alertType === "error" ? "bg-red-200 text-red-800" : "bg-green-200 text-green-800"}`}>
             {alertMessage}
           </div>
         )}
-
         <form onSubmit={handleSubmit}>
           {/* Correo */}
           <div className="mb-4">
@@ -83,13 +80,11 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-md 
-                         focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               placeholder="tucorreo@ejemplo.com"
               required
             />
           </div>
-
           {/* Contraseña */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Contraseña</label>
@@ -97,21 +92,18 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-md 
-                         focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               placeholder="Ingresa tu contraseña"
               required
             />
           </div>
-
           {/* Selección de Rol */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Rol</label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-md 
-                         focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
               required
             >
               <option value="">Selecciona un rol</option>
@@ -119,7 +111,6 @@ const Login = () => {
               <option value="admin">Admin</option>
             </select>
           </div>
-
           {/* Contraseña de Admin (solo para rol admin) */}
           {role === "admin" && (
             <div className="mb-4">
@@ -128,14 +119,12 @@ const Login = () => {
                 type="password"
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
-                className="mt-1 w-full p-3 border border-gray-300 rounded-md 
-                           focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
+                className="mt-1 w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition duration-300"
                 placeholder="Ingresa la contraseña de admin"
                 required
               />
             </div>
           )}
-
           {/* Recuérdame y enlace para recuperar contraseña */}
           <div className="flex items-center justify-between mb-6">
             <label className="flex items-center text-sm text-gray-600">
@@ -151,7 +140,6 @@ const Login = () => {
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
-
           <button
             type="submit"
             disabled={isLoading}
@@ -162,7 +150,6 @@ const Login = () => {
             {isLoading ? "Cargando..." : "Iniciar sesión"}
           </button>
         </form>
-
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600">
             ¿No tienes una cuenta?{" "}
