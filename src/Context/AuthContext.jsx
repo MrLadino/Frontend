@@ -57,23 +57,16 @@ export const AuthProvider = ({ children }) => {
       setAuthenticated(true);
       return true;
     } catch (error) {
-      console.error("Error en login:", error);
-      throw new Error(error.message || "Error desconocido al iniciar sesión");
+      console.error("Error en login:", error?.message || error);
+      throw new Error(error?.message || "Error desconocido al iniciar sesión");
     }
   };
 
-  const logout = async () => {
-    try {
-      // Si tienes un endpoint para logout, puedes llamarlo aquí
-      await fetch(`${apiUrl}/api/auth/logout`, { method: "POST", credentials: "include" });
-    } catch (err) {
-      console.error("Logout error:", err);
-    } finally {
-      localStorage.removeItem("token");
-      setAuthenticated(false);
-      setUser(null);
-      navigate("/login");
-    }
+  const logout = () => {
+    localStorage.removeItem("token");
+    setAuthenticated(false);
+    setUser(null);
+    navigate("/login");
   };
 
   const verifySession = async () => {
@@ -81,7 +74,9 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem("token");
       const response = await fetch(`${apiUrl}/api/auth/verify`, {
         method: "GET",
-        headers: { "Authorization": `Bearer ${token}` },
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
         credentials: "include",
       });
       return response.ok;

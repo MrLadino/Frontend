@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../../assets/Logo.png";
 
-// Obtener la URL base del backend desde la variable de entorno
+// Usamos la variable de entorno para la URL base del backend
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const SignUp = () => {
@@ -14,6 +14,7 @@ const SignUp = () => {
     role: "",
     adminPassword: "",
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
   const navigate = useNavigate();
@@ -68,13 +69,11 @@ const SignUp = () => {
         </div>
         <h2 className="text-2xl font-bold text-center mb-2 text-gray-800">Crear Cuenta</h2>
         <p className="text-center text-gray-600 mb-6">Ingresa tus datos para registrarte.</p>
-
         {alert.message && (
           <div className={`text-center mb-4 px-4 py-2 rounded ${alert.type === "error" ? "bg-red-200 text-red-800" : "bg-green-200 text-green-800"}`}>
             {alert.message}
           </div>
         )}
-
         <form onSubmit={handleSubmit}>
           {/* Correo */}
           <div className="mb-4">
@@ -89,7 +88,6 @@ const SignUp = () => {
               required
             />
           </div>
-
           {/* Contraseña */}
           <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-700">Contraseña</label>
@@ -103,7 +101,6 @@ const SignUp = () => {
               required
             />
           </div>
-
           {/* Confirmar Contraseña */}
           <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-700">Confirmar Contraseña</label>
@@ -117,7 +114,6 @@ const SignUp = () => {
               required
             />
           </div>
-
           {/* Selección de Rol */}
           <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-700">Rol</label>
@@ -133,7 +129,6 @@ const SignUp = () => {
               <option value="admin">Admin</option>
             </select>
           </div>
-
           {/* Contraseña de Admin (solo para rol admin) */}
           {formData.role === "admin" && (
             <div className="mb-4">
@@ -149,7 +144,6 @@ const SignUp = () => {
               />
             </div>
           )}
-
           <button
             type="submit"
             disabled={isLoading}
@@ -160,7 +154,6 @@ const SignUp = () => {
             {isLoading ? "Registrando..." : "Crear Cuenta"}
           </button>
         </form>
-
         <div className="text-center mt-6">
           <p className="text-sm text-gray-700">
             ¿Ya tienes cuenta?{" "}
