@@ -42,8 +42,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, role, rememberMe, adminPassword) => {
     try {
-      // Usar el endpoint actualizado: /api/login
-      const response = await fetch(`${apiUrl}/api/login`, {
+      // Usar el endpoint actualizado: /api/auth/login
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role, adminPassword, rememberMe }),
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   const verifySession = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${apiUrl}/api/verify`, {
+      const response = await fetch(`${apiUrl}/api/auth/verify`, {
         method: "GET",
         headers: { "Authorization": `Bearer ${token}` },
         credentials: "include",

@@ -42,8 +42,8 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Se usa el endpoint actualizado: /api/signup
-      const response = await axios.post(`${apiUrl}/api/signup`, {
+      // Se usa el endpoint correcto: /api/auth/signup
+      const response = await axios.post(`${apiUrl}/api/auth/signup`, {
         email,
         password,
         confirmPassword,

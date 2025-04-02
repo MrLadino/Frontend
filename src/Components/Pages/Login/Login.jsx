@@ -37,7 +37,7 @@ const Login = () => {
     }
 
     try {
-      // Se usa el endpoint actualizado: /api/login
+      // Usar el endpoint actualizado: /api/auth/login
       const success = await login(email, password, role, rememberMe, adminPassword);
       if (success) {
         setAlertMessage("Inicio de sesión exitoso. Bienvenido a Tic America.");
