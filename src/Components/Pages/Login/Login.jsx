@@ -63,7 +63,7 @@ const Login = () => {
           <img src={logo} alt="Logo de Tic America" className="w-24 h-24 mx-auto" />
         </div>
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
-          Bienvenido aaaaaa Tic America
+          Bienvenido a Tic America
         </h2>
         <p className="text-center text-gray-600 mb-6">
           Ingresa tus credenciales para continuar.
