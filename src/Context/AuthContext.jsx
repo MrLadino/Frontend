@@ -74,9 +74,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem("token");
       const response = await fetch(`${apiUrl}/api/auth/verify`, {
         method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
+        headers: { "Authorization": `Bearer ${token}` },
         credentials: "include",
       });
       return response.ok;

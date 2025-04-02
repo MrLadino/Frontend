@@ -14,7 +14,6 @@ const SignUp = () => {
     role: "",
     adminPassword: "",
   });
-
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
   const navigate = useNavigate();
@@ -147,9 +146,7 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${
-              isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
-            }`}
+            className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"}`}
           >
             {isLoading ? "Registrando..." : "Crear Cuenta"}
           </button>

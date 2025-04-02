@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import logo from "../../../assets/Logo.png";
 
-// Obtener la URL base del backend desde la variable de entorno
+// Usamos la variable de entorno para la URL base del backend
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
@@ -40,7 +40,8 @@ const Login = () => {
     }
 
     try {
-      // Se asume que la función login en AuthContext usa internamente el endpoint: `${apiUrl}/api/auth/login`
+      // Aquí se asume que la función login del AuthContext usa el endpoint:
+      // `${apiUrl}/api/auth/login`
       const success = await login(email, password, role, rememberMe, adminPassword);
       if (success) {
         setAlertMessage("Inicio de sesión exitoso. Bienvenido a Tic America.");
@@ -143,9 +144,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${
-              isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
-            }`}
+            className={`w-full py-3 rounded-md text-white font-semibold transition duration-300 ${isLoading ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"}`}
           >
             {isLoading ? "Cargando..." : "Iniciar sesión"}
           </button>
