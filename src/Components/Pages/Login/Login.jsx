@@ -3,9 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import logo from "../../../assets/Logo.png";
 
-// Usamos la variable de entorno para la URL base del backend
-const apiUrl = import.meta.env.VITE_API_URL;
-
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -40,8 +37,7 @@ const Login = () => {
     }
 
     try {
-      // Aquí se asume que la función login del AuthContext usa el endpoint:
-      // `${apiUrl}/api/auth/login`
+      // Se usa el endpoint actualizado: /api/login
       const success = await login(email, password, role, rememberMe, adminPassword);
       if (success) {
         setAlertMessage("Inicio de sesión exitoso. Bienvenido a Tic America.");

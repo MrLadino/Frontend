@@ -42,10 +42,11 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      // Usar el endpoint centralizado en /api/auth/signup
-      const response = await axios.post(`${apiUrl}/api/auth/signup`, {
+      // Se usa el endpoint actualizado: /api/signup
+      const response = await axios.post(`${apiUrl}/api/signup`, {
         email,
         password,
+        confirmPassword,
         name: email.split("@")[0],
         role,
         adminPassword: role === "admin" ? adminPassword : undefined,
